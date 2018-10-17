@@ -48,6 +48,7 @@
 
 .login-bg {
     background-color: #2b2b2b;
+    min-height: 100vh;
 }
 
 
@@ -115,6 +116,20 @@
 }
 
 
+.judge-rating {
+    height: 40px;
+    width: 40px;
+}
+
+.judge-rating-ppic {
+    height: 50px;
+    width: 50px;
+    overflow: hidden;
+}
+
+.footer {
+    min-height: 60vh;
+}
 
 
 /* on the fly */
