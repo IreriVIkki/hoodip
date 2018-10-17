@@ -18,6 +18,22 @@ class NeighbourHood(models.Model):
         self.admin = user
         self.save()
 
+    @classmethod
+    def delete_neigborhood(cls, hood_name):
+        cls.objects.filter(name=hood_name).delete()
+
+    @classmethod
+    def find_neigborhood(cls, neigborhood_id):
+        return cls.objects.filter(pk=neigborhood_id)
+
+    def update_neighborhood(self):
+        self.save()
+
+    @property
+    def update_occupants(self, occupants):
+        self.occupants = occupants
+        self.save()
+
     def __str__(self):
         return self.location
 
@@ -29,9 +45,9 @@ class Profile(models.Model):
     profile_photo = models.ImageField(
         upload_to='images/', blank=True, default='dwf_profile.jpg')
     user_name = models.CharField(max_length=50, null=True)
-
+    neighborhood = models.ForeignKey(
+        NeighbourHood, on_delete=models.CASCADE, null=True)
     bio = models.TextField(blank=True)
-
     age = models.IntegerField(blank=True, null=True)
     phone = models.IntegerField(null=True)
     email = models.CharField(max_length=50, null=True)
