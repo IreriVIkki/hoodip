@@ -5,7 +5,7 @@ from .models import *
 # Register your models here.
 
 
-class NeighbourHoodAdmin(admin.ModelAdmin):
+class NeighborHoodAdmin(admin.ModelAdmin):
     list_display = ('name',)
 
 
@@ -17,6 +17,6 @@ class BusinessAdmin(admin.ModelAdmin):
     list_display = ('name',)
 
 
-admin.site.register(NeighbourHood, NeighbourHoodAdmin)
+admin.site.register(NeighborHood, NeighborHoodAdmin)
 admin.site.register(Profile, ProfileAdmin)
 admin.site.register(Business, BusinessAdmin)

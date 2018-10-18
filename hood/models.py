@@ -5,7 +5,7 @@ import math
 # Create your models here.
 
 
-class NeighbourHood(models.Model):
+class NeighborHood(models.Model):
     admin = models.ForeignKey(
         User, null=True, on_delete=models.CASCADE, related_name='locations')
     name = models.CharField(max_length=50, null=True)
@@ -46,7 +46,7 @@ class Profile(models.Model):
         upload_to='images/', blank=True, default='dwf_profile.jpg')
     user_name = models.CharField(max_length=50, null=True)
     neighborhood = models.ForeignKey(
-        NeighbourHood, on_delete=models.CASCADE, null=True)
+        NeighborHood, on_delete=models.CASCADE, null=True)
     phone = models.IntegerField(null=True)
     email = models.CharField(max_length=50, null=True)
 
@@ -67,7 +67,7 @@ class Business(models.Model):
     owner = models.ForeignKey(
         User, related_name='owner', null=True, on_delete=models.CASCADE)
     located_at = models.ForeignKey(
-        NeighbourHood, null=True, on_delete=models.CASCADE)
+        NeighborHood, null=True, on_delete=models.CASCADE)
     email = models.CharField(max_length=50)
 
     def create_business(self, owner, locale):
