@@ -47,8 +47,6 @@ class Profile(models.Model):
     user_name = models.CharField(max_length=50, null=True)
     neighborhood = models.ForeignKey(
         NeighbourHood, on_delete=models.CASCADE, null=True)
-    bio = models.TextField(blank=True)
-    age = models.IntegerField(blank=True, null=True)
     phone = models.IntegerField(null=True)
     email = models.CharField(max_length=50, null=True)
 
@@ -62,3 +60,15 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.user_name
+
+
+class Business(models.Model):
+    name = models.CharField(max_length=100,)
+    owner = models.ForeignKey(
+        User, related_name='owner', null=True, on_delete=models.CASCADE)
+    located_at = models.ForeignKey(
+        NeighbourHood, null=True, on_delete=models.CASCADE)
+    email = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.name
