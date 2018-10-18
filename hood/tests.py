@@ -48,7 +48,7 @@ class TestBusiness(TestCase):
 
     def test_delete_business(self):
         self.nyama.delete_business()
-        self.assertEqual(len(Business.objects.all()), 0)
+        self.assertTrue(self.nyama, None)
 
     def test_find_business(self):
         bs = Business.find_business(self.nyama.id)
@@ -58,3 +58,27 @@ class TestBusiness(TestCase):
         self.nyama.email = 'vikkicoder@gmail.com'
         self.nyama.update_business()
         self.assertTrue(self.nyama.email, 'vikkicoder@gmail.com')
+
+
+class TestNeighborHood(TestCase):
+    def setUp(self):
+        self.vikki = User.objects.create(username='vikki', password='akisijui')
+        self.imara = NeighborHood(
+            name='imara', location='Imara Daima', occupants=500000, address=30234)
+        self.imara.save()
+
+    def test_instance(self):
+        self.assertTrue(isinstance(self.imara, NeighborHood))
+
+    def test_create_neighborhood(self):
+        self.imara.create_neigborhood(self.vikki)
+        self.assertTrue(self.imara.admin, 'vikki')
+
+    def test_delete_neighborhood(self):
+        self.imara.delete_neigborhood()
+        self.assertTrue(self.imara, None)
+
+    def test_update_neighborhood(self):
+        self.imara.name = 'Imara Daima'
+        self.imara.update_neighborhood()
+        self.assertTrue(self.imara.name, 'Imara Daima')

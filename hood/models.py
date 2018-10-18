@@ -13,14 +13,12 @@ class NeighborHood(models.Model):
     occupants = models.IntegerField(null=True)
     address = models.IntegerField(null=True)
 
-    @property
-    def create_neigborhood(self, user):
-        self.admin = user
+    def create_neigborhood(self, admin):
+        self.admin = admin
         self.save()
 
-    @classmethod
-    def delete_neigborhood(cls, hood_name):
-        cls.objects.filter(name=hood_name).delete()
+    def delete_neigborhood(self):
+        self.delete()
 
     @classmethod
     def find_neigborhood(cls, neigborhood_id):
@@ -29,7 +27,6 @@ class NeighborHood(models.Model):
     def update_neighborhood(self):
         self.save()
 
-    @property
     def update_occupants(self, occupants):
         self.occupants = occupants
         self.save()
