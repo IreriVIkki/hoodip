@@ -57,6 +57,14 @@ class Profile(models.Model):
         self.user = current_user
         self.save()
 
+    def leave_hood(self):
+        self.neighborhood = None
+        self.save()
+
+    def join_hood(self, hood):
+        self.neighborhood = hood
+        self.save()
+
     def __str__(self):
         return self.user_name
 
@@ -90,3 +98,14 @@ class Business(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Notification(models.Model):
+    author = models.ForeignKey(User, null=True)
+    hood = models.ForeignKey(NeighborHood, null=True)
+    message = models.TextField()
+
+    def save_notification(self, author, hood):
+        self.author = author
+        self.hood = hood
+        self.save()

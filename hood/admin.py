@@ -6,7 +6,7 @@ from .models import *
 
 
 class NeighborHoodAdmin(admin.ModelAdmin):
-    list_display = ('name',)
+    list_display = ('location',)
 
 
 class ProfileAdmin(admin.ModelAdmin):
@@ -17,6 +17,11 @@ class BusinessAdmin(admin.ModelAdmin):
     list_display = ('name',)
 
 
+class NotificationAdmin(admin.ModelAdmin):
+    list_display = ('message',)
+
+
 admin.site.register(NeighborHood, NeighborHoodAdmin)
 admin.site.register(Profile, ProfileAdmin)
+admin.site.register(Notification, NotificationAdmin)
 admin.site.register(Business, BusinessAdmin)

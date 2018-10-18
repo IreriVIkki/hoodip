@@ -13,6 +13,7 @@ import datetime
 def home(request):
     user = request.user
     user_bs = Business.find_user_businesses(user)
+    hood = user.lo
     context = {
         'user': user,
         'user_bs': user_bs
