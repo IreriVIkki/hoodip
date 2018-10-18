@@ -2,5 +2,9 @@
 {% load static %}
 
 {% block content %}
-
+{{ user.profile.user_name }}
+{{ user.profile.neighborhood.name }}
+{% for bs in user_bs %}
+{{ bs.name }}
+{% endfor %}
 {% endblock content %}

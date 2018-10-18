@@ -11,6 +11,8 @@ class NeighborHood(models.Model):
     name = models.CharField(max_length=50, null=True)
     location = models.CharField(max_length=50, null=True)
     occupants = models.IntegerField(null=True)
+    residents = models.ManyToManyField(
+        User, null=True, related_name='residents')
     address = models.IntegerField(null=True)
 
     def create_neigborhood(self, admin):
@@ -78,6 +80,10 @@ class Business(models.Model):
     @classmethod
     def find_business(cls, business_id):
         return cls.objects.get(pk=business_id)
+
+    @classmethod
+    def find_user_businesses(cls, user):
+        return cls.objects.filter(owner=user)
 
     def update_business(self):
         self.save()

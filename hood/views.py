@@ -11,8 +11,11 @@ import datetime
 
 
 def home(request):
+    user = request.user
+    user_bs = Business.find_user_businesses(user)
     context = {
-        'user': request.user
+        'user': user,
+        'user_bs': user_bs
     }
     return render(request, 'index.html', context)
 
