@@ -72,9 +72,9 @@ class Profile(models.Model):
 class Business(models.Model):
     name = models.CharField(max_length=100,)
     owner = models.ForeignKey(
-        User, related_name='owner', null=True, on_delete=models.CASCADE)
+        User, related_name='businesses', null=True, on_delete=models.CASCADE)
     located_at = models.ForeignKey(
-        NeighborHood, null=True, on_delete=models.CASCADE)
+        NeighborHood, null=True, on_delete=models.CASCADE, related_name='businesses')
     email = models.CharField(max_length=50)
 
     def create_business(self, owner, locale):
@@ -101,11 +101,15 @@ class Business(models.Model):
 
 
 class Notification(models.Model):
-    author = models.ForeignKey(User, null=True)
-    hood = models.ForeignKey(NeighborHood, null=True)
+    author = models.ForeignKey(User, null=True, related_name='notifications')
+    hood = models.ForeignKey(NeighborHood, null=True,
+                             related_name='notifications')
     message = models.TextField()
 
     def save_notification(self, author, hood):
         self.author = author
         self.hood = hood
         self.save()
+
+    def delete_notification(self):
+        self.delete()
