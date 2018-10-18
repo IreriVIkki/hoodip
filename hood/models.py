@@ -70,5 +70,20 @@ class Business(models.Model):
         NeighbourHood, null=True, on_delete=models.CASCADE)
     email = models.CharField(max_length=50)
 
+    def create_business(self, owner, locale):
+        self.owner = owner
+        self.located_at = locale
+        self.save()
+
+    def delete_business(self):
+        self.delete()
+
+    @classmethod
+    def find_business(cls, business_id):
+        return cls.objects.get(pk=business_id)
+
+    def update_business(self):
+        self.save()
+
     def __str__(self):
         return self.name
