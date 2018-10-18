@@ -6,13 +6,25 @@ import math
 
 
 class NeighborHood(models.Model):
+    CHOICES = (
+        ('Mandera', ("Mandera")),
+        ('Meru', ("Meru")),
+        ('Migori', ("Migori")),
+        ('Mombasa', ("Mombasa")),
+        ('Muranga', ("Muranga")),
+        ('Nairobi', ("Nairobi")),
+        ('Nakuru', ("Nakuru")),
+        ('Nandi', ("Nandi")),
+        ('Nyamira', ("Nyamira")),
+        ('Nyeri', ("Nyeri")),
+    )
     admin = models.ForeignKey(
         User, null=True, on_delete=models.CASCADE, related_name='locations')
+    location = models.CharField(max_length=50, choices=CHOICES, null=True)
     name = models.CharField(max_length=50, null=True)
-    location = models.CharField(max_length=50, null=True)
     occupants = models.IntegerField(null=True)
     residents = models.ManyToManyField(
-        User, null=True, related_name='residents')
+        User, related_name='residents')
     address = models.IntegerField(null=True)
 
     def create_neigborhood(self, admin):
