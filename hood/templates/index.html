@@ -2,9 +2,131 @@
 {% load static %}
 
 {% block content %}
-{{ user.profile.user_name }}
-{{ user.profile.neighborhood.name }}
-{% for bs in user_bs %}
-{{ bs.name }}
-{% endfor %}
+
+<section class="header">
+    <div class="container">
+        {% if user.profile.neighborhood %}
+        {% with uhood=user.profile.neighborhood %}
+
+        <div class="container-fluid">
+            <div class="card-deck my-4 w-100">
+                <div class="card p-2 w-33 text-center">
+                    <div class="card-title pb-2 border-bottom">
+                        <h2>{{ uhood.name }}</h2>
+                    </div>
+                    <div class="card-body">
+                        <p class="mb-0 px-1">
+                            <span class="font-italictext-muted">Location</span>
+                            <span>{{ uhood.location }}</span>
+                        </p>
+                        <p class="mb-0 px-1">
+                            <span class="font-italic text-muted">Population</span> <span>{{ uhood.population }}</span>
+                        </p>
+                        <p class="mb-0 px-1">
+                            <span class="font-italic text-muted">Businesses</span> <span>{{ uhood.businesses.count }}</span>
+                        </p>
+                        <p class="mb-0 px-1">
+                            <span class="font-italic text-muted">Notifications</span>
+                            <span> {{ uhood.notifications.count }}</span>
+                        </p>
+                    </div>
+                    <a href="/leave/hood/">
+                        <button class="btn btn-danger px-4 badge-pill">Leave This Hood</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        {% endwith %}
+        {% else %}
+        <div class="container-fluid d-flex">
+            <div class="row mx-0 d-flex">
+                <div class="col-md-5 d-flex flex-column mx-auto">
+                    <div class="card-title text-success">
+                        <h1>Join a neighborhood</h1>
+                    </div>
+                    <div class="card">
+
+                        {% for hood in hoods %}
+                        <div class="card-body">
+                            <p class="mb-0 px-1">
+                                <span class="font-italictext-muted">Location</span>
+                                <span>{{ hood.location }}</span>
+                            </p>
+                            <p class="mb-0 px-1">
+                                <span class="font-italic text-muted">Population</span>
+                                <span>{{ hood.population }}</span>
+                            </p>
+                            <p class="mb-0 px-1">
+                                <span class="font-italic text-muted">Businesses</span>
+                                <span>{{ hood.businesses.count }}</span>
+                            </p>
+                            <p class="mb-0 px-1">
+                                <span class="font-italic text-muted">Notifications</span>
+                                <span> {{ hood.notifications.count }}</span>
+                            </p>
+                        </div>
+                        <div class="card-footer">
+                            <a href="/join/hood/{{ hood.id }}">
+                                <button class="btn btn-outline-success px-4 badge-pill">Join This Hood</button>
+                            </a>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="col-md-1 d-flex mx-auto">Or</div>
+                <div class="col-md-5 d-flex mx-auto">
+                    <form action="{% url 'home' %}" method="post">
+                        {% csrf_token %}
+                        <div class="card-title text-success">
+                            <h1>Add a new neighborhood</h1>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-control-sm" for="id_location">Select A County</label>
+                            <select class="form-control" name="location" required id="id_location">
+                                <option value="Nairobi" selected>Nairobi</option>
+
+                                <option value="Mandera">Mandera</option>
+
+                                <option value="Meru">Meru</option>
+
+                                <option value="Migori">Migori</option>
+
+                                <option value="Mombasa">Mombasa</option>
+
+                                <option value="Muranga">Muranga</option>
+
+                                <option value="Nairobi">Nairobi</option>
+
+                                <option value="Nakuru">Nakuru</option>
+
+                                <option value="Nandi">Nandi</option>
+
+                                <option value="Nyamira">Nyamira</option>
+
+                                <option value="Nyeri">Nyeri</option>
+
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-control-sm" for="id_name">Name of Neighborhood</label>
+                            <input class="form-control" type="text" name="name" maxlength="50" required id="id_name" /></div>
+                        <div class="form-group">
+                            <label class="form-control-sm" for="id_occupants">Number of occupants</label>
+                            <input class="form-control" type="number" name="occupants" required id="id_occupants" /></div>
+                        <div class="form-group">
+                            <label class="form-control-sm" for="id_address">Neighborhood address</label>
+                            <input class="form-control" type="number" name="address" required id="id_address" /></div>
+                        <button class="btn btn-outline-info" type="submit">Create Hood</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    </div>
+</section>
+
 {% endblock content %}
+</div>
+</div>

@@ -23,3 +23,10 @@ class MyRegistrationForm(UserCreationForm):
         user.save()
 
         return user
+
+
+class HoodForm(forms.ModelForm):
+
+    class Meta:
+        model = NeighborHood
+        exclude = ['admin', 'residents']

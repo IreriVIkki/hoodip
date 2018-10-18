@@ -17,6 +17,10 @@
 
 /* on the fly */
 
+.w-33 {
+    max-width: 30%;
+}
+
 .login-img {
     height: 100%;
     width: auto;

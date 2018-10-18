@@ -27,6 +27,21 @@ class NeighborHood(models.Model):
         User, related_name='residents')
     address = models.IntegerField(null=True)
 
+    @property
+    def population(self):
+        population = self.occupants + len(self.residents.all())
+        return population
+
+    @property
+    def businesses(self):
+        businesses = Business.objects.filter(located_at=self)
+        return businesses
+
+    @property
+    def notifications(self):
+        notifications = Notification.objects.filter(hood=self)
+        return notifications
+
     def create_neigborhood(self, admin):
         self.admin = admin
         self.save()
@@ -45,8 +60,12 @@ class NeighborHood(models.Model):
         self.occupants = occupants
         self.save()
 
+    @classmethod
+    def all_hoods(cls):
+        return cls.objects.all()
+
     def __str__(self):
-        return self.location
+        return self.name
 
 
 class Profile(models.Model):
@@ -61,11 +80,12 @@ class Profile(models.Model):
     phone = models.IntegerField(null=True)
     email = models.CharField(max_length=50, null=True)
 
+    @property
+    def businesses(self):
+        businesses = Business.objects.filter(owner=self)
+        return businesses
+
     def save_profile(self, current_user):
-        self.is_chief = False
-        self.is_pro = False
-        self.is_judge = False
-        self.is_tribe = False
         self.user = current_user
         self.save()
 
@@ -73,7 +93,8 @@ class Profile(models.Model):
         self.neighborhood = None
         self.save()
 
-    def join_hood(self, hood):
+    def join_hood(self, hood_id):
+        hood = NeighborHood.objects.get(pk=hood_id)
         self.neighborhood = hood
         self.save()
 
@@ -125,3 +146,24 @@ class Notification(models.Model):
 
     def delete_notification(self):
         self.delete()
+
+
+class Amenities(models.Model):
+    CHOICES = (
+        ('Mandera', ("Mandera")),
+        ('Meru', ("Meru")),
+        ('Migori', ("Migori")),
+        ('Mombasa', ("Mombasa")),
+    )
+    institution = models.CharField(
+        max_length=50, choices=CHOICES)
+    name = models.CharField(max_length=100)
+    hood = models.ForeignKey(NeighborHood, null=True,
+                             related_name='institutions')
+
+    def save_amenitiy(self, hood):
+        self.hood = hood
+        self.save()
+
+    def __str__(self):
+        return self.name

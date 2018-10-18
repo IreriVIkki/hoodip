@@ -13,12 +13,27 @@ import datetime
 def home(request):
     user = request.user
     user_bs = Business.find_user_businesses(user)
-    hood = user.lo
+    hoods = NeighborHood.all_hoods()
+    form = HoodForm()
     context = {
         'user': user,
-        'user_bs': user_bs
+        'user_bs': user_bs,
+        'hoods': hoods,
+        'form': form
     }
     return render(request, 'index.html', context)
+
+
+def leave_hood(request):
+    user = request.user
+    user.profile.leave_hood()
+    return redirect('home')
+
+
+def join_hood(request, hood_id):
+    user = request.user
+    user.profile.join_hood(hood_id)
+    return redirect('home')
 
 
 def login(request):
