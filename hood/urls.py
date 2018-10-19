@@ -7,6 +7,7 @@ from . import views
 urlpatterns = [
     url(r'^$', views.home, name='home'),
     url(r'^leave/hood/(\d+)$', views.leave_hood, name='leave_hood'),
+    url(r'^delete/business/(\d+)$', views.delete_business, name='delete_business'),
     url(r'^join/hood/(\d+)$', views.join_hood, name='join_hood'),
     url(r'^login/$', views.login, name='login'),
     url(r'^logout/$', views.logout, name='logout'),

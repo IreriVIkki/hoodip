@@ -122,7 +122,9 @@ class Business(models.Model):
         User, related_name='businesses', null=True, on_delete=models.CASCADE)
     located_at = models.ForeignKey(
         NeighborHood, null=True, on_delete=models.CASCADE, related_name='businesses')
-    email = models.CharField(max_length=50)
+    description = models.TextField(null=True)
+    email = models.CharField(max_length=50, null=True)
+    link = models.CharField(max_length=50, null=True)
 
     def create_business(self, owner, locale):
         self.owner = owner
@@ -143,14 +145,23 @@ class Business(models.Model):
     def update_business(self):
         self.save()
 
+    @classmethod
+    def get_bs_by_id(cls, id):
+        return cls.objects.get(pk=id)
+
+    @classmethod
+    def new_business(cls):
+        return cls.objects.last()
+
     def __str__(self):
         return self.name
 
 
 class Notification(models.Model):
-    author = models.ForeignKey(User, null=True, related_name='notifications')
-    hood = models.ForeignKey(NeighborHood, null=True,
-                             related_name='notifications')
+    author = models.ForeignKey(
+        User, null=True, related_name='notifications', on_delete=models.CASCADE)
+    hood = models.ForeignKey(
+        NeighborHood, null=True, on_delete=models.CASCADE, related_name='notifications')
     message = models.TextField()
 
     def save_notification(self, author, hood):
@@ -173,7 +184,7 @@ class Amenities(models.Model):
         max_length=50, choices=CHOICES)
     name = models.CharField(max_length=100)
     hood = models.ForeignKey(NeighborHood, null=True,
-                             related_name='institutions')
+                             related_name='institutions', on_delete=models.CASCADE)
 
     def save_amenitiy(self, hood):
         self.hood = hood

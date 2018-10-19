@@ -15,22 +15,28 @@ def home(request):
     user_bs = Business.find_user_businesses(user)
     hoods = NeighborHood.all_hoods()
     form = HoodForm()
+    bs_form = BusinessForm()
     if request.method == 'POST':
+        bs_form = BusinessForm(request.POST)
         form = HoodForm(request.POST)
         admin = request.user
         if form.is_valid():
             print('here')
-            form.save()
-            new_hood = NeighborHood.new_hood()
+            new_hood = form.save()
             new_hood.create_neigborhood(new_hood, admin)
             user.profile.join_hood(new_hood.id, admin)
+        if bs_form.is_valid():
+            print('here')
+            new_bs = bs_form.save()
+            new_bs.create_business(user, user.profile.neighborhood)
         return redirect('home')
 
     context = {
         'user': user,
         'user_bs': user_bs,
         'hoods': hoods,
-        'form': form
+        'form': form,
+        'bs_form': bs_form
     }
     return render(request, 'index.html', context)
 
@@ -38,6 +44,12 @@ def home(request):
 def leave_hood(request, hood_id):
     user = request.user
     user.profile.leave_hood(hood_id, user)
+    return redirect('home')
+
+
+def delete_business(request, bs_id):
+    bs = Business.get_bs_by_id(bs_id)
+    bs.delete_business()
     return redirect('home')
 
 
