@@ -15,6 +15,17 @@ def home(request):
     user_bs = Business.find_user_businesses(user)
     hoods = NeighborHood.all_hoods()
     form = HoodForm()
+    if request.method == 'POST':
+        form = HoodForm(request.POST)
+        admin = request.user
+        if form.is_valid():
+            print('here')
+            form.save()
+            new_hood = NeighborHood.new_hood()
+            new_hood.create_neigborhood(new_hood, admin)
+            user.profile.join_hood(new_hood.id, admin)
+        return redirect('home')
+
     context = {
         'user': user,
         'user_bs': user_bs,
@@ -24,16 +35,23 @@ def home(request):
     return render(request, 'index.html', context)
 
 
-def leave_hood(request):
+def leave_hood(request, hood_id):
     user = request.user
-    user.profile.leave_hood()
+    user.profile.leave_hood(hood_id, user)
     return redirect('home')
 
 
 def join_hood(request, hood_id):
     user = request.user
-    user.profile.join_hood(hood_id)
+    user.profile.join_hood(hood_id, user)
     return redirect('home')
+
+
+def edit_profile(request, id, username):
+    context = {
+        'user': request.user
+    }
+    return render(request, 'profile.html', context)
 
 
 def login(request):
@@ -65,8 +83,9 @@ def signup(request):
     if request.method == 'POST':
         form = MyRegistrationForm(request.POST)
         if form.is_valid():
-            print('here')
-            form.save()
+            user = form.save()
+            Profile.create_profile(user)
+            print(user.profile.user_name)
             return redirect('login')
 
     form = MyRegistrationForm()

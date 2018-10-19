@@ -30,3 +30,9 @@ class HoodForm(forms.ModelForm):
     class Meta:
         model = NeighborHood
         exclude = ['admin', 'residents']
+
+
+class ProfileForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        exclude = ['user', 'neighborhood']

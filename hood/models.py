@@ -42,9 +42,13 @@ class NeighborHood(models.Model):
         notifications = Notification.objects.filter(hood=self)
         return notifications
 
-    def create_neigborhood(self, admin):
-        self.admin = admin
-        self.save()
+    @classmethod
+    def new_hood(cls):
+        return cls.objects.last()
+
+    def create_neigborhood(self, hood, admin):
+        hood.admin = admin
+        hood.save()
 
     def delete_neigborhood(self):
         self.delete()
@@ -74,11 +78,18 @@ class Profile(models.Model):
     user_name = models.CharField(max_length=50, null=True)
     profile_photo = models.ImageField(
         upload_to='images/', blank=True, default='dwf_profile.jpg')
-    user_name = models.CharField(max_length=50, null=True)
     neighborhood = models.ForeignKey(
         NeighborHood, on_delete=models.CASCADE, null=True)
     phone = models.IntegerField(null=True)
     email = models.CharField(max_length=50, null=True)
+
+    # @classmethod
+    # def new_user(cls):
+    #     return cls.objects.last()
+
+    @classmethod
+    def create_profile(cls, user):
+        cls.objects.create(user=user, user_name=user.username)
 
     @property
     def businesses(self):
@@ -89,12 +100,15 @@ class Profile(models.Model):
         self.user = current_user
         self.save()
 
-    def leave_hood(self):
+    def leave_hood(self, hood_id, user):
+        hood = NeighborHood.objects.get(pk=hood_id)
+        hood.residents.remove(user)
         self.neighborhood = None
         self.save()
 
-    def join_hood(self, hood_id):
+    def join_hood(self, hood_id, user):
         hood = NeighborHood.objects.get(pk=hood_id)
+        hood.residents.add(user)
         self.neighborhood = hood
         self.save()
 

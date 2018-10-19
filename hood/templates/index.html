@@ -30,7 +30,7 @@
                             <span> {{ uhood.notifications.count }}</span>
                         </p>
                     </div>
-                    <a href="/leave/hood/">
+                    <a href="/leave/hood/{{ uhood.id }}">
                         <button class="btn btn-danger px-4 badge-pill">Leave This Hood</button>
                     </a>
                 </div>
@@ -45,10 +45,13 @@
                     <div class="card-title text-success">
                         <h1>Join a neighborhood</h1>
                     </div>
-                    <div class="card">
+                    {% for hood in hoods %}
+                    <div class="card mb-3">
 
-                        {% for hood in hoods %}
                         <div class="card-body">
+                            <div class="card-title pb-2 border-bottom">
+                                <h2>{{ hood.name }}</h2>
+                            </div>
                             <p class="mb-0 px-1">
                                 <span class="font-italictext-muted">Location</span>
                                 <span>{{ hood.location }}</span>
@@ -71,8 +74,8 @@
                                 <button class="btn btn-outline-success px-4 badge-pill">Join This Hood</button>
                             </a>
                         </div>
-                        {% endfor %}
                     </div>
+                    {% endfor %}
                 </div>
                 <div class="col-md-1 d-flex mx-auto">Or</div>
                 <div class="col-md-5 d-flex mx-auto">
@@ -128,5 +131,3 @@
 </section>
 
 {% endblock content %}
-</div>
-</div>
