@@ -53,13 +53,17 @@
                         <button class="btn btn-outline-warning mr-2 ml-auto gbb">Back</button>
                         <button class="btn btn-outline-info abb">Add a Business</button>
                     </div>
-                    <div class="row mx-0">
+                    <div class="">
                         <!-- list of businesses -->
-                        <div class="lob">
+                        <div class="lob row mx-0">
                             {% for bs in uhood.businesses.all %}
                             <div class="col-md-4 d-flex flex-column">
                                 <div class="card-title pb-2 mb-1 border-bottom">
-                                    <h2>{{ bs.name }}</h2>
+                                    <h2 class="text-lowercase">
+                                        <span class="">
+                                            {{ bs.name }}
+                                        </span>
+                                    </h2>
                                     <p class="small">{{ bs.owner.user_name }}</p>
                                 </div>
                                 <ul class="card-body py-0 m-0">
@@ -76,9 +80,11 @@
                                         <span>{{ bs.link }}</span>
                                     </p>
                                 </ul>
+                                {% if user == bs.owner %}
                                 <a class="ml-auto" href="/delete/business/{{ bs.id }}">
                                     <button class="btn btn-outline-danger badge-pill px-4 py-0">delete</button>
                                 </a>
+                                {% endif %}
                             </div>
 
                             {% endfor %}
@@ -104,7 +110,7 @@
                                     <label class="form-control-sm" for="id_link">Link:</label>
                                     <input class="form-control" type="text" name="link" maxlength="50" required id="id_link" />
                                 </div>
-                                <button class="btn btn-info pfb" type="submit"> Post Business</button>
+                                <button class="btn btn-info" type="submit"> Post Business</button>
                             </form>
                         </div>
                     </div>
@@ -117,44 +123,47 @@
     {% else %}
     <div class="container-fluid d-flex">
         <div class="row mx-0 d-flex">
-            <div class="col-md-5 d-flex flex-column mx-auto">
+            <div class="col-md-9 d-flex flex-column mx-auto">
                 <div class="card-title text-success">
                     <h1>Join a neighborhood</h1>
                 </div>
-                {% for hood in hoods %}
-                <div class="card mb-3">
-
-                    <div class="card-body">
-                        <div class="card-title pb-2 border-bottom">
-                            <h2>{{ hood.name }}</h2>
+                <div class="row mx-0">
+                    {% for hood in hoods %}
+                    <div class="card mb-3 col-md-4">
+                        <div class="card-body">
+                            <div class="card-title pb-2 border-bottom">
+                                <h2>{{ hood.name }}</h2>
+                            </div>
+                            <p class="mb-0 px-1">
+                                <span class="font-italictext-muted">Location</span>
+                                <span>{{ hood.location }}</span>
+                            </p>
+                            <p class="mb-0 px-1">
+                                <span class="font-italic text-muted">Population</span>
+                                <span>{{ hood.population }}</span>
+                            </p>
+                            <p class="mb-0 px-1">
+                                <span class="font-italic text-muted">Businesses</span>
+                                <span>{{ hood.businesses.count }}</span>
+                            </p>
+                            <p class="mb-0 px-1">
+                                <span class="font-italic text-muted">Notifications</span>
+                                <span> {{ hood.notifications.count }}</span>
+                            </p>
                         </div>
-                        <p class="mb-0 px-1">
-                            <span class="font-italictext-muted">Location</span>
-                            <span>{{ hood.location }}</span>
-                        </p>
-                        <p class="mb-0 px-1">
-                            <span class="font-italic text-muted">Population</span>
-                            <span>{{ hood.population }}</span>
-                        </p>
-                        <p class="mb-0 px-1">
-                            <span class="font-italic text-muted">Businesses</span>
-                            <span>{{ hood.businesses.count }}</span>
-                        </p>
-                        <p class="mb-0 px-1">
-                            <span class="font-italic text-muted">Notifications</span>
-                            <span> {{ hood.notifications.count }}</span>
-                        </p>
+                        <div class="card-footer">
+                            <a href="/join/hood/{{ hood.id }}">
+                                <button class="btn btn-outline-success px-4 badge-pill">Join This Hood</button>
+                            </a>
+                        </div>
                     </div>
-                    <div class="card-footer">
-                        <a href="/join/hood/{{ hood.id }}">
-                            <button class="btn btn-outline-success px-4 badge-pill">Join This Hood</button>
-                        </a>
-                    </div>
+                    {% endfor %}
                 </div>
-                {% endfor %}
             </div>
-            <div class="col-md-1 d-flex mx-auto">Or</div>
-            <div class="col-md-5 d-flex mx-auto">
+            <div class="col-md-3 d-flex mx-auto flex-column">
+                <div class="">
+                    <h1>OR</h1>
+                </div>
                 <form action="{% url 'home' %}" method="post">
                     {% csrf_token %}
                     <div class="card-title text-success">
