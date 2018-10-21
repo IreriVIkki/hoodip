@@ -11,6 +11,8 @@ import datetime
 
 
 def home(request):
+    if request.user.is_authenticated == False:
+        return redirect('login')
     user = request.user
     user_bs = Business.find_user_businesses(user)
     hoods = NeighborHood.all_hoods()
