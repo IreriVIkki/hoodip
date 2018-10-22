@@ -15,7 +15,7 @@ def home(request):
         return redirect('login')
     user = request.user
     searched_posts = None
-    caption = None
+    caption = 'Businesses'
     user_bs = Business.find_user_businesses(user)
     hoods = NeighborHood.all_hoods()
     form = HoodForm()
@@ -27,7 +27,7 @@ def home(request):
         caption = f'Search results for {search_term}'
 
         if len(searched_posts) == 0:
-            caption = f'Results for {search_term} Found'
+            caption = f'No results for {search_term} Found'
     if request.method == 'POST':
         bs_form = BusinessForm(request.POST)
         form = HoodForm(request.POST)

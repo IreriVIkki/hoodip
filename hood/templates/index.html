@@ -47,9 +47,9 @@
                     <!-- Businesses Section -->
                     <!-- *************************************** -->
                     <div class="card-title pb-2 border-bottom d-flex align-items-center">
-                        <h2 class="mr-3">Businesses Found</h2>
+                        <h2 class="mr-3">{{ caption }}</h2>
                         <h3 class="text-muted">
-                            {{ uhood.businesses.count }}
+                            {{ posts | length }}
                         </h3>
                         <button class="btn btn-outline-warning mr-2 ml-auto gbb">X</button>
                     </div>
@@ -97,10 +97,15 @@
                     <!-- Businesses Section -->
                     <!-- *************************************** -->
                     <div class="card-title pb-2 border-bottom d-flex align-items-center">
-                        <h2 class="mr-3">Businesses</h2>
+                        {% if caption is 'Businesses' %}
                         <h3 class="text-muted">
-                            {{ uhood.businesses.count }}
+                            Businesses
                         </h3>
+                        {% else %}
+                        <h3 class="text-muted">
+                            {{ caption }}
+                        </h3>
+                        {% endif %}
                         <button class="btn btn-outline-warning mr-2 ml-auto gbb">Back</button>
                         <button class="btn btn-outline-info abb">Add a Business</button>
                     </div>
