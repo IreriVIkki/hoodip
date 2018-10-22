@@ -41,6 +41,57 @@
                         {% endif %}
                     </div>
                 </div>
+                {% if posts %}
+                <div class="p-2 col-md-9">
+                    <!-- *************************************** -->
+                    <!-- Businesses Section -->
+                    <!-- *************************************** -->
+                    <div class="card-title pb-2 border-bottom d-flex align-items-center">
+                        <h2 class="mr-3">Businesses Found</h2>
+                        <h3 class="text-muted">
+                            {{ uhood.businesses.count }}
+                        </h3>
+                        <button class="btn btn-outline-warning mr-2 ml-auto gbb">X</button>
+                    </div>
+                    <div class="">
+                        <!-- list of businesses -->
+                        <div class="lob row mx-0">
+                            {% for bs in posts %}
+                            <div class="col-md-4 d-flex flex-column">
+                                <div class="card-title pb-2 mb-1 border-bottom">
+                                    <h2 class="text-lowercase">
+                                        <span class="">
+                                            {{ bs.name }}
+                                        </span>
+                                    </h2>
+                                    <p class="small">{{ bs.owner.user_name }}</p>
+                                </div>
+                                <ul class="card-body py-0 m-0">
+                                    <p class="mb-0 px-1 my-3">
+                                        <span class="font-italictext-muted">Description</span>
+                                        <span>{{ bs.description }}</span>
+                                    </p>
+                                    <p class="mb-0 px-1 my-3">
+                                        <span class="font-italic text-muted">email</span>
+                                        <span>{{ bs.email }}</span>
+                                    </p>
+                                    {% if bs.link %}
+                                    <a class="" href="{{ bs.link }}">
+                                        Visit business
+                                    </a>
+                                    {% endif %}
+                                </ul>
+                                {% if user == bs.owner %}
+                                <a class="ml-auto" href="/delete/business/{{ bs.id }}">
+                                    <button class="btn btn-outline-danger badge-pill px-4 py-0">delete</button>
+                                </a>
+                                {% endif %}
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                {% else %}
                 <div class="p-2 col-md-9">
                     <!-- *************************************** -->
                     <!-- Businesses Section -->
@@ -75,10 +126,11 @@
                                         <span class="font-italic text-muted">email</span>
                                         <span>{{ bs.email }}</span>
                                     </p>
-                                    <p class="mb-0 px-1 my-3">
-                                        <span class="font-italic text-muted">business link</span>
-                                        <span>{{ bs.link }}</span>
-                                    </p>
+                                    {% if bs.link %}
+                                    <a class="" href="{{ bs.link }}">
+                                        Visit business
+                                    </a>
+                                    {% endif %}
                                 </ul>
                                 {% if user == bs.owner %}
                                 <a class="ml-auto" href="/delete/business/{{ bs.id }}">
@@ -115,6 +167,7 @@
                         </div>
                     </div>
                 </div>
+                {% endif %}
             </div>
         </div>
     </div>

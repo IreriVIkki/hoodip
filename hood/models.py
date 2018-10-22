@@ -139,6 +139,13 @@ class Business(models.Model):
         return cls.objects.get(pk=business_id)
 
     @classmethod
+    def search_businesses(cls, search_term):
+        dec = cls.objects.filter(description__icontains=search_term)
+        nam = cls.objects.filter(name__icontains=search_term)
+        print(list(dec) + list(nam))
+        return list(dec) + list(nam)
+
+    @classmethod
     def find_user_businesses(cls, user):
         return cls.objects.filter(owner=user)
 
