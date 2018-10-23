@@ -19,6 +19,7 @@ def home(request):
     user_bs = Business.find_user_businesses(user)
     hoods = NeighborHood.all_hoods()
     form = HoodForm()
+    nf = NotificationForm()
     bs_form = BusinessForm()
     if 'post' in request.GET and request.GET['post']:
         # get the data from the search input field
@@ -42,6 +43,13 @@ def home(request):
             new_bs = bs_form.save()
             new_bs.create_business(user, user.profile.neighborhood)
         return redirect('home')
+    if cf.is_valid() and cf.cleaned_data['review'] != '':
+        cf.save()
+        review = Comment.objects.last()
+        review.author = user
+        review.post = post
+        review.save()
+
     print(searched_posts)
     context = {
         'posts': searched_posts,

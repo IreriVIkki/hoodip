@@ -43,6 +43,51 @@
                 </div>
                 {% if posts %}
                 <div class="p-2 col-md-9">
+                    <div>
+                        <form action="" method="post">
+                            <div>
+                                <label class="form-control-sm f-16 mb-0" for="id_review">
+                                    {{ post.comments.all | length }} comments
+                                </label>
+                            </div>
+                            <div class="d-inline-flex w-100 mx-auto">
+                                <textarea class="form-inline form-control mb-0 rating-input-width w-75" type="review"
+                                    name="review" id="id_review" placeholder="Add a review for this post"></textarea>
+                                <button class="btn btn-secodary px-5 ml-5" type="submit">Post comment</button>
+                            </div>
+                            <div>
+                                {% if post.comments.all.count is 0 %}
+                                <label for="" class="form-control-sn f-24 mb-0">Be the first to comment</label>
+                                {% endif %}
+                            </div>
+
+                            {% for review in post.comments.all %}
+                            {% if review.review %}
+                            <div class="container d-flex mt-3 pt-1">
+                                <div class="lg-icon mr-3 d-flex justify-content-center">
+                                    <img class="w-auto h-100" src="{{ review.author.profile.profile_photo.url }}" alt="">
+                                </div>
+                                <div class="">
+                                    <div class="d-flex">
+                                        <span class="f-12 text-success text-lowercase pr-2 mr-2 border-right border-secondary">
+                                            {{review.author.profile.user_name}}</span>
+                                        <span class="f-12 text-muted">{{ review.post_date | timesince }} ago</span>
+                                    </div>
+                                    <div class="pt-2">
+                                        <p class="text-white-50 mb-0 py-1">{{ review.review }}</p>
+                                    </div>
+                                    <div class="text-white-50 py-1">
+                                        <button class="btn btn-sm btn-outline-secondary badge-pill px-3 py-0">Edit</button>
+                                        <button class="btn btn-sm btn-outline-secondary badge-pill px-3 py-0">Reply</button>
+                                        <button class="btn btn-sm btn-outline-secondary badge-pill px-3 py-0">Share</button>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+                            {% endfor %}
+                        </form>
+
+                    </div>
                     <!-- *************************************** -->
                     <!-- Businesses Section -->
                     <!-- *************************************** -->

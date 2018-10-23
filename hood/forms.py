@@ -43,3 +43,10 @@ class BusinessForm(forms.ModelForm):
     class Meta:
         model = Business
         exclude = ['owner', 'located_at']
+
+
+class NotificationForm(forms.ModelForm):
+
+    class Meta:
+        model = Notification
+        exclude = ['author', 'hood']
